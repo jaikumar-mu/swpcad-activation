@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SWP CAD — Activation</title>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+:root{
+  --bg:#f5f7fb;
+  --card:#ffffff;
+  --text:#172033;
+  --muted:#68738a;
+  --line:#e3e8f0;
+  --primary:#1457d9;
+  --primary2:#0d46b5;
+  --success:#11845b;
+  --danger:#c83d3d;
+  --shadow:0 18px 55px rgba(24,43,77,.12);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  color:var(--text);
+  background:linear-gradient(135deg,#eef4ff 0%,var(--bg) 48%,#f8fafc 100%);
+}
+.wrap{max-width:980px;margin:0 auto;padding:34px 18px 50px}
+.header{text-align:center;margin-bottom:25px}
+.logo{
+  width:62px;height:62px;margin:0 auto 12px;border-radius:18px;
+  background:linear-gradient(135deg,var(--primary),#2c78f0);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:800;font-size:20px;
+  box-shadow:0 12px 28px rgba(20,87,217,.25)
+}
+h1{margin:0;font-size:31px;letter-spacing:-.5px}
+.subtitle{margin:8px 0 0;color:var(--muted);font-size:15px}
+.card{
+  background:var(--card);border:1px solid rgba(227,232,240,.9);
+  border-radius:22px;box-shadow:var(--shadow);padding:25px
+}
+.uuid-box{
+  background:#f7f9fc;border:1px solid var(--line);border-radius:14px;
+  padding:15px 16px;margin-bottom:24px
+}
+.label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.uuid-row{display:flex;gap:9px;align-items:center;margin-top:7px}
+#uuid{
+  flex:1;min-width:0;font-family:Consolas,monospace;font-size:14px;
+  color:#24314a;word-break:break-all
+}
+button{
+  border:0;border-radius:11px;padding:11px 15px;font-weight:700;
+  cursor:pointer;font-size:14px
+}
+.copy{background:#eaf1ff;color:var(--primary)}
+.copy:hover{background:#dfeaff}
+.plans{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.plan{
+  position:relative;border:2px solid var(--line);border-radius:18px;
+  padding:21px;cursor:pointer;transition:.18s ease;background:#fff
+}
+.plan:hover{transform:translateY(-2px);border-color:#b9cdf7}
+.plan.selected{border-color:var(--primary);box-shadow:0 8px 25px rgba(20,87,217,.12)}
+.badge{
+  position:absolute;right:15px;top:14px;background:#eaf1ff;color:var(--primary);
+  padding:5px 9px;border-radius:20px;font-size:11px;font-weight:800
+}
+.plan h2{font-size:18px;margin:0 0 9px}
+.price{font-size:30px;font-weight:800;margin-bottom:6px}
+.price span{font-size:13px;color:var(--muted);font-weight:500}
+.plan p{margin:7px 0;color:var(--muted);font-size:13px;line-height:1.5}
+.features{margin:16px 0 0;padding:0;list-style:none}
+.features li{font-size:13px;margin:8px 0;color:#445066}
+.features li:before{content:"✓";color:var(--success);font-weight:800;margin-right:8px}
+.actions{text-align:center;margin-top:25px}
+.pay{
+  width:100%;max-width:430px;padding:14px 20px;font-size:16px;
+  background:var(--primary);color:#fff;box-shadow:0 10px 24px rgba(20,87,217,.23)
+}
+.pay:hover{background:var(--primary2)}
+.pay:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
+.status{
+  display:none;margin-top:18px;padding:13px 15px;border-radius:12px;
+  font-size:13px;line-height:1.5;text-align:left
+}
+.status.show{display:block}
+.status.info{background:#eef4ff;color:#204b9a}
+.status.success{background:#eaf8f2;color:#116d4c}
+.status.error{background:#fff0f0;color:#a12e2e}
+.note{
+  margin-top:20px;padding-top:18px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:12px;line-height:1.6;text-align:center
+}
+.footer{text-align:center;color:#8a94a6;font-size:12px;margin-top:20px}
+@media(max-width:700px){
+  .wrap{padding:22px 12px 35px}
+  .card{padding:18px}
+  .plans{grid-template-columns:1fr}
+  h1{font-size:26px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="header">
+    <div class="logo">SWP</div>
+    <h1>SWP CAD Activation</h1>
+    <p class="subtitle">Activate your SWP CAD subscription for this computer.</p>
+  </header>
+
+  <main class="card">
+    <section class="uuid-box">
+      <div class="label">Computer ID / UUID</div>
+      <div class="uuid-row">
+        <div id="uuid">Reading computer ID...</div>
+        <button class="copy" type="button" onclick="copyUUID()">Copy</button>
+      </div>
+    </section>
+
+    <div class="plans">
+      <div class="plan selected" data-plan="monthly" onclick="selectPlan('monthly')">
+        <div class="badge">POPULAR</div>
+        <h2>Monthly</h2>
+        <div class="price">₹500 <span>/ month</span></div>
+        <p>Full SWP CAD access for one activated computer.</p>
+        <ul class="features">
+          <li>1 computer / 1 UUID</li>
+          <li>Offline use after activation</li>
+          <li>30-day subscription</li>
+        </ul>
+      </div>
+
+      <div class="plan" data-plan="yearly" onclick="selectPlan('yearly')">
+        <h2>Yearly</h2>
+        <div class="price">₹2,000 <span>/ year</span></div>
+        <p>Best value for regular SWP CAD users.</p>
+        <ul class="features">
+          <li>1 computer / 1 UUID</li>
+          <li>Offline use after activation</li>
+          <li>12-month subscription</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="payBtn" class="pay" type="button" onclick="startPayment()">
+        Continue — ₹500 / Month
+      </button>
+      <div id="status" class="status"></div>
+    </div>
+
+    <div class="note">
+      Payment is processed securely through Razorpay. After successful verification,
+      your signed <b>SWPCAD.LIC</b> license will be made available for this computer.
+      Keep the license file in <b>D:\EPLAN\</b>.
+    </div>
+  </main>
+
+  <div class="footer">© SWP CAD Tools · www.swpcad.in</div>
+</div>
+
+<script>
+/* ============================================================
+   SWP CAD ACTIVATION FRONT-END
+   ------------------------------------------------------------
+   This page is intentionally separate from the main website.
+
+   IMPORTANT:
+   The payment/order/license API must run on your SERVER.
+   Never put the Razorpay Key Secret or RSA private key in HTML.
+
+   Change API_BASE when your backend is ready.
+   Example:
+   const API_BASE = "https://api.swpcad.in";
+   ============================================================ */
+
+const CONFIG = {
+  API_BASE: "",
+
+  // Razorpay LIVE Key ID is safe to expose in frontend.
+  // The Key Secret must remain on your server.
+  RAZORPAY_KEY_ID: "rzp_test_TaxaRLJcxKdzWQ",
+
+  PRODUCT: "SWP-CAD",
+
+  PLANS: {
+    monthly: {
+      name: "SWP CAD Monthly",
+      amount: 50000,
+      display: "₹500 / Month",
+      period: "month"
+    },
+    yearly: {
+      name: "SWP CAD Yearly",
+      amount: 200000,
+      display: "₹2,000 / Year",
+      period: "year"
+    }
+  }
+};
+
+let selectedPlan = "monthly";
+
+function getUUID() {
+  const params = new URLSearchParams(window.location.search);
+  return (params.get("uuid") || "").trim();
+}
+
+function setStatus(type, message) {
+  const box = document.getElementById("status");
+  box.className = "status show " + type;
+  box.innerHTML = message;
+}
+
+function selectPlan(plan) {
+  if (!CONFIG.PLANS[plan]) return;
+  selectedPlan = plan;
+
+  document.querySelectorAll(".plan").forEach(el => {
+    el.classList.toggle("selected", el.dataset.plan === plan);
+  });
+
+  document.getElementById("payBtn").textContent =
+    "Continue — " + CONFIG.PLANS[plan].display;
+}
+
+async function copyUUID() {
+  const uuid = getUUID();
+  if (!uuid) {
+    setStatus("error", "Computer ID was not found in the activation URL.");
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(uuid);
+    setStatus("success", "Computer ID copied.");
+  } catch (e) {
+    setStatus("info", "Computer ID: " + uuid);
+  }
+}
+
+async function api(path, options = {}) {
+  const response = await fetch(CONFIG.API_BASE + path, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    }
+  });
+
+  let data = {};
+  try { data = await response.json(); } catch (_) {}
+
+  if (!response.ok) {
+    throw new Error(data.message || "Server request failed.");
+  }
+
+  return data;
+}
+
+async function startPayment() {
+  const uuid = getUUID();
+
+  if (!uuid) {
+    setStatus(
+      "error",
+      "Computer ID was not detected. Please open this page from SWP CAD activation."
+    );
+    return;
+  }
+
+  const plan = CONFIG.PLANS[selectedPlan];
+  const button = document.getElementById("payBtn");
+
+  button.disabled = true;
+  setStatus("info", "Creating secure payment order...");
+
+  try {
+    /*
+      Expected backend:
+      POST /api/create-order
+      {
+        product: "SWP-CAD",
+        plan: "monthly" or "yearly",
+        uuid: "..."
+      }
+
+      Response:
+      {
+        order_id: "order_...",
+        amount: 50000,
+        currency: "INR",
+        customer_email: "optional"
+      }
+    */
+    const order = await api("/api/create-order", {
+      method: "POST",
+      body: JSON.stringify({
+        product: CONFIG.PRODUCT,
+        plan: selectedPlan,
+        uuid: uuid
+      })
+    });
+
+    const options = {
+      key: CONFIG.RAZORPAY_KEY_ID,
+      amount: order.amount || plan.amount,
+      currency: order.currency || "INR",
+      name: "SWP CAD",
+      description: plan.name,
+      order_id: order.order_id,
+      prefill: {
+        email: order.customer_email || ""
+      },
+      theme: {
+        color: "#1457d9"
+      },
+
+      handler: async function (payment) {
+        await verifyPayment(payment, uuid, selectedPlan);
+      },
+
+      modal: {
+        ondismiss: function () {
+          button.disabled = false;
+          setStatus("info", "Payment window closed. No payment was completed.");
+        }
+      }
+    };
+
+    const rzp = new Razorpay(options);
+
+    rzp.on("payment.failed", function (response) {
+      button.disabled = false;
+      const reason =
+        response?.error?.description || "Payment was not completed.";
+      setStatus("error", reason);
+    });
+
+    rzp.open();
+
+  } catch (error) {
+    button.disabled = false;
+    setStatus(
+      "error",
+      "Unable to start payment.<br><br>" +
+      escapeHtml(error.message) +
+      "<br><br>Please contact SWP CAD support if this continues."
+    );
+  }
+}
+
+async function verifyPayment(payment, uuid, plan) {
+  const button = document.getElementById("payBtn");
+  button.disabled = true;
+
+  setStatus("info", "Payment received. Verifying payment securely...");
+
+  try {
+    /*
+      Expected backend:
+      POST /api/verify-payment
+
+      {
+        product,
+        plan,
+        uuid,
+        razorpay_payment_id,
+        razorpay_order_id,
+        razorpay_signature
+      }
+
+      Server MUST verify the Razorpay signature using the
+      Razorpay Key Secret. Do not verify the secret in HTML.
+    */
+    const result = await api("/api/verify-payment", {
+      method: "POST",
+      body: JSON.stringify({
+        product: CONFIG.PRODUCT,
+        plan: plan,
+        uuid: uuid,
+        razorpay_payment_id: payment.razorpay_payment_id,
+        razorpay_order_id: payment.razorpay_order_id,
+        razorpay_signature: payment.razorpay_signature
+      })
+    });
+
+    setStatus("info", "Payment verified. Creating your signed license...");
+
+    /*
+      Expected backend response:
+      {
+        success: true,
+        download_url: "https://api.swpcad.in/api/license/download/...."
+      }
+
+      The server creates SWPCAD.LIC using the PRIVATE RSA KEY.
+      The private key must never be sent to the browser.
+    */
+    const license = await api("/api/create-license", {
+      method: "POST",
+      body: JSON.stringify({
+        product: CONFIG.PRODUCT,
+        plan: plan,
+        uuid: uuid,
+        payment_id: payment.razorpay_payment_id,
+        order_id: payment.razorpay_order_id
+      })
+    });
+
+    if (!license.download_url) {
+      throw new Error("License was created but no download link was returned.");
+    }
+
+    setStatus(
+      "success",
+      "<b>Activation successful.</b><br><br>" +
+      "Your SWPCAD.LIC license is ready.<br>" +
+      "Download it and place it in <b>D:\\EPLAN\\</b>.<br><br>" +
+      '<a href="' + escapeAttribute(license.download_url) +
+      '" style="display:inline-block;background:#11845b;color:#fff;text-decoration:none;padding:11px 16px;border-radius:10px;font-weight:700">Download SWPCAD.LIC</a>'
+    );
+
+    button.textContent = "Activation Completed";
+
+  } catch (error) {
+    button.disabled = false;
+    setStatus(
+      "error",
+      "Payment verification or license creation failed.<br><br>" +
+      escapeHtml(error.message) +
+      "<br><br>Do not pay again. Contact SWP CAD support with your payment ID: " +
+      escapeHtml(payment.razorpay_payment_id || "")
+    );
+  }
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function escapeAttribute(value) {
+  return escapeHtml(value);
+}
+
+(function init() {
+  const uuid = getUUID();
+  const el = document.getElementById("uuid");
+
+  if (uuid) {
+    el.textContent = uuid;
+  } else {
+    el.textContent = "Computer ID not detected";
+    setStatus(
+      "error",
+      "This activation page needs the computer ID supplied by SWP CAD."
+    );
+  }
+
+  selectPlan("monthly");
+})();
+</script>
+</body>
+</html>
